@@ -1,0 +1,180 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+  <title>ApexAdaptive100+ - Qinlili - Glacier Lab</title>
+  <style type="text/css">
+    @font-face {
+      font-family: "myFont";
+      src: url(Font.woff2);
+    }
+
+    html {
+      font-family: "myFont", serif;
+    }
+
+    body {
+      margin: 0px;
+      overflow: hidden;
+      background: rgb(254, 223, 225) no-repeat;
+      background-size: contain;
+      -webkit-touch-callout: none;
+      user-select: none;
+      box-sizing: border-box;
+    }
+
+    ::-webkit-scrollbar {
+      height: 12px;
+      width: 14px;
+      background: transparent;
+      z-index: 12;
+      overflow: visible;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      width: 10px;
+      background-color: #3d424b;
+      border-radius: 10px;
+      z-index: 12;
+      border: 4px solid rgba(0, 0, 0, 0);
+      background-clip: padding-box;
+      transition: background-color .32s ease-in-out;
+      margin: 4px;
+      min-height: 32px;
+      min-width: 32px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4E5157;
+    }
+
+    ::-webkit-scrollbar-corner {
+      background: #202020;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none !important;
+      margin: 0;
+    }
+  </style>
+  <link href="material-components-web.min.css" rel="stylesheet">
+  <script src="material-components-web.min.js"></script>
+</head>
+
+<body marginheight="0px" marginwidth="0px">
+  <div id="top"
+    style="height:auto;position:fixed;top:0px;width:100%;background-color:rgba(255,255,255,0.8);-webkit-app-region:drag;"
+    oncontextmenu="return false;">
+    <H3 id="title" style="left:0px;padding:0px;margin:5px">ApexAdaptive100+</H3>
+    <div id="toolbar" style="position:fixed;top:0px;right:0px;-webkit-app-region:no-drag;">
+      <image src="close.png" style="cursor:pointer" height="100%" onClick="Shut()"></image>
+    </div>
+  </div>
+  <div style="margin:5px">
+    <H4 id="tip" style="margin:5px">Author: Qinlili - Glacier Lab</H4>
+    <span style="font-size:12px">Ensure U Have Enabled Adaptive Resolution In Game</span>
+    <span style="font-size:12px">Value In Game is 3 Lower Than Actual, So Do Here</span>
+    <H4 id="status" style="margin:5px">Loading...</H4>
+    <button onclick="readCfg();" class="mdc-button foo-button">
+      <div class="mdc-button__ripple"></div>
+      <span class="mdc-button__label">Reload Config</span>
+    </button>
+    <button onclick="writeCfg();" class="mdc-button foo-button">
+      <div class="mdc-button__ripple"></div>
+      <span class="mdc-button__label">Save Config</span>
+    </button>
+    <label style="width: 100%;padding-inline: 10px;" class="mdc-text-field mdc-text-field--outlined"
+      data-mdc-auto-init="MDCTextField">
+      <input id="target" type="number" class="mdc-text-field__input" value="0" aria-labelledby="my-label-id">
+      <span class="mdc-notched-outline">
+        <span class="mdc-notched-outline__leading"></span>
+        <span class="mdc-notched-outline__notch">
+          <span class="mdc-floating-label" id="my-label-id">Target FPS</span>
+        </span>
+        <span class="mdc-notched-outline__trailing"></span>
+      </span>
+    </label>
+    <br>
+    <br>
+    <label style="width: 100%;padding-inline: 10px;" class="mdc-text-field mdc-text-field--outlined"
+      data-mdc-auto-init="MDCTextField">
+      <input type="number" id="min" class="mdc-text-field__input" value="0" aria-labelledby="my-label-id">
+      <span class="mdc-notched-outline">
+        <span class="mdc-notched-outline__leading"></span>
+        <span class="mdc-notched-outline__notch">
+          <span class="mdc-floating-label" id="my-label-id">Min Frametime</span>
+        </span>
+        <span class="mdc-notched-outline__trailing"></span>
+      </span>
+    </label>
+    <br>
+    <br><label style="width: 100%;padding-inline: 10px;" class="mdc-text-field mdc-text-field--outlined"
+      data-mdc-auto-init="MDCTextField">
+      <input type="number" id="max" class="mdc-text-field__input" value="0" aria-labelledby="my-label-id">
+      <span class="mdc-notched-outline">
+        <span class="mdc-notched-outline__leading"></span>
+        <span class="mdc-notched-outline__notch">
+          <span class="mdc-floating-label" id="my-label-id">Max Frametime</span>
+        </span>
+        <span class="mdc-notched-outline__trailing"></span>
+      </span>
+    </label>
+    <br>
+    <br>
+  </div>
+  <iframe style="width:100%;height:60%;border:none" id="mainFrame"></iframe>
+  <script>
+    var win = nw.Window.get();
+    var gui = require('nw.gui');
+    var username = gui.App.argv[1];
+    if (!username) {
+      alert("Please Launch From Launch.bat Instead Of Directly Run nw.exe!");
+      win.close(true);
+    }
+    var fs = require("fs");
+    const VDF = require('vdf-parser')
+    document.getElementById('tip').style.marginTop = (document.getElementById('top').clientHeight + 10) + "px";
+    document.getElementById('toolbar').style.height = (document.getElementById('title').clientHeight + 10) + "px";
+    window.mdc.autoInit();
+    for (i = 0; document.getElementsByClassName("mdc-button foo-button")[i]; i++) {
+      mdc.ripple.MDCRipple.attachTo(document.getElementsByClassName("mdc-button foo-button")[i]);
+    }
+    var storage = window.localStorage;
+    var Shut = function () {
+      win.close(true);
+    }
+    function zeroFill(i) {
+      if (i >= 0 && i <= 9) {
+        return "0" + i;
+      } else {
+        return i;
+      }
+    }
+    var parsed;
+    function readCfg() {
+      parsed = VDF.parse(fs.readFileSync("C:\\Users\\" + username + "\\Saved Games\\Respawn\\Apex\\local\\videoconfig.txt").toString());
+      document.getElementById("min").value = parsed["VideoConfig"]["setting.dvs_gpuframetime_min"];
+      document.getElementById("max").value = parsed["VideoConfig"]["setting.dvs_gpuframetime_max"];
+      frametimeToFps();
+      document.getElementById("status").innerText = "Loaded Config";
+    }
+    function writeCfg() {
+      parsed["VideoConfig"]["setting.dvs_gpuframetime_max"] = document.getElementById("max").value;
+      parsed["VideoConfig"]["setting.dvs_gpuframetime_min"] = document.getElementById("min").value;
+      fs.writeFile("C:\\Users\\" + username + "\\Saved Games\\Respawn\\Apex\\local\\videoconfig.txt", VDF.stringify(parsed, { pretty: true }), function () { });
+      document.getElementById("status").innerText = "Saved Config";
+    }
+    function fpsToFrametime() {
+      document.getElementById("max").value = Math.floor(1000000 / (Number(document.getElementById("target").value) + 3));
+      document.getElementById("min").value = Math.floor(document.getElementById("max").value * 0.97);
+    }
+    function frametimeToFps() {
+      document.getElementById("target").value = Math.floor(1000000 / document.getElementById("max").value) - 3;
+    }
+    document.getElementById("target").addEventListener('input', fpsToFrametime);
+    readCfg();
+  </script>
+</body>
+
+</html>
