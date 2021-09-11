@@ -12,6 +12,5 @@ Download Release and extract to an empty folder, then run `Launch.bat`
 
 
 ## Opensource Projects Used
-[7Zip](https://www.7-zip.org/) Used for nw.js file decompress  
 [nw.js](https://nwjs.io/) Used for core UI  
 [vdf-parser](https://github.com/p0358/vdf-parser) Used for read and write vdf config  
