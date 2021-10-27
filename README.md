@@ -1,16 +1,12 @@
-# ApexAdaptive100Plus
+# ApexAdaptive100Plus 2.0
 Use 100+ Fps For Adaptive Resolution In Apex:Legend  
 
 ## How To Use
-Download Release and extract to an empty folder, then run `Launch.bat`  
+Download Release and extract to an empty folder, then run `ApexAdaptive100+.exe`  
 `Network is needed for this tool`  
 
-## File Info
-`Launch.bat` A simply environment detector and nw.js installer  
-`www\` Core nw.js files  
-`node_modules` node.js module supports  
-
+## This is 2.0 Version
+For `1.0` version which uses `nw.js` plz switch to `Legacy1.0` branch
 
 ## Opensource Projects Used
-[nw.js](https://nwjs.io/) Used for core UI  
 [vdf-parser](https://github.com/p0358/vdf-parser) Used for read and write vdf config  
