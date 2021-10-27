@@ -8,6 +8,7 @@ Class MainWindow
     End Sub
     Private Async Sub LoadHtml()
         Await webView.EnsureCoreWebView2Async()
+        webView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = False
         LoadTip.Content = "Processing..."
         Dim asm As Assembly = Assembly.GetExecutingAssembly()
         'MsgBox(String.Join(",", Assembly.GetExecutingAssembly().GetManifestResourceNames().ToArray()))
