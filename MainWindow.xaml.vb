@@ -8,7 +8,9 @@ Class MainWindow
     End Sub
     Private Async Sub LoadHtml()
         Await webView.EnsureCoreWebView2Async()
-        webView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = False
+        If Not Command() = "-debug" Then
+            webView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = False
+        End If
         LoadTip.Content = "Processing..."
         Dim asm As Assembly = Assembly.GetExecutingAssembly()
         'MsgBox(String.Join(",", Assembly.GetExecutingAssembly().GetManifestResourceNames().ToArray()))
@@ -28,7 +30,6 @@ Class MainWindow
     End Sub
     Dim waitForconfig As Boolean
     Private Sub webView_WebMessageReceived(sender As Object, e As CoreWebView2WebMessageReceivedEventArgs) Handles webView.WebMessageReceived
-        LoadTip.Visibility = Visibility.Visible
         Dim msg As String = e.WebMessageAsJson
         If msg = """readCfg""" Then
             readCfg()
