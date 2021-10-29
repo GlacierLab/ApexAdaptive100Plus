@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
-        xmlns:local="clr-namespace:Webview2Demo"
         mc:Ignorable="d"
         Title="ApexAdaptive100+ Qinlili-GlacierLab" Height="375" Width="300" ResizeMode="NoResize">
     <Grid>
