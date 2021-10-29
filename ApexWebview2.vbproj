@@ -9,6 +9,7 @@
     <Version>2.0.1</Version>
     <Copyright>Copyright 2021@Qinlili-GlacierLab</Copyright>
     <Authors>Qinlili</Authors>
+    <ApplicationIcon>1.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
