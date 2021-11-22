@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         mc:Ignorable="d"
-        Title="ApexAdaptive100+ Qinlili-GlacierLab" Height="375" Width="320" ResizeMode="NoResize">
+        Title="ApexAdaptive100+ Qinlili-GlacierLab" Height="380" Width="320" ResizeMode="NoResize">
     <Grid>
-        <DockPanel Panel.ZIndex="1">
+        <DockPanel Panel.ZIndex="1" Margin="0,3,0,0">
             <wv2:WebView2 Name="webView" Panel.ZIndex="1"
     />
         </DockPanel>
-        <Label x:Name="LoadTip" Content="Initializing Webview2..." HorizontalAlignment="Center" VerticalAlignment="Center" Width="258" FontSize="24" Panel.ZIndex="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="#00000000" UseLayoutRounding="False"/>
+        <ProgressBar x:Name="PBar" HorizontalAlignment="Left" Height="3" VerticalAlignment="Top" Width="320" BorderBrush="{x:Null}" BorderThickness="0,0,0,0" Background="{x:Null}" IsIndeterminate="True"/>
     </Grid>
 </Window>
