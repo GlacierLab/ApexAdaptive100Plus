@@ -1,4 +1,5 @@
 # ApexAdaptive100Plus 2.0
+[![dotnet package](https://github.com/GlacierLab/ApexAdaptive100Plus/actions/workflows/dotnet-desktop.yml/badge.svg?branch=main)](https://github.com/GlacierLab/ApexAdaptive100Plus/actions/workflows/dotnet-desktop.yml)
 Use 100+ Fps For Adaptive Resolution In Apex:Legend  
 
 ## How To Use
