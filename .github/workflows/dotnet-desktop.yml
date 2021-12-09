@@ -17,12 +17,12 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet publish -p:PublishReadyToRun=true -p:PublishSingleFile=true --no-self-contained -r win-x64 -c Release
       - name: Test
         run: dotnet test --no-restore --verbosity normal
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
          name:  ApexAdaptive100Plus
-         path:  bin\Release
+         path:  bin\Release\net6.0-windows\win-x64\publish
         
