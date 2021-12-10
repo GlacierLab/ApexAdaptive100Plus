@@ -33,6 +33,7 @@ Class MainWindow
         If File.Exists(cfgPath) Then
             Dim reader = File.OpenText(cfgPath)
             Dim config As String = Await reader.ReadToEndAsync()
+            reader.Close()
             config = Convert.ToBase64String(Text.Encoding.UTF8.GetBytes(config))
             Await webView.CoreWebView2.ExecuteScriptAsync("readCfg('" + config + "')")
             PBar.Value = 100
