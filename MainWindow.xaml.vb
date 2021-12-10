@@ -29,11 +29,20 @@ Class MainWindow
         readCfg()
     End Sub
     Private Async Sub readCfg()
-        Dim config As String = File.ReadAllText(Environment.GetEnvironmentVariable("USERPROFILE") + "/Saved Games/Respawn/Apex/local/videoconfig.txt")
-        config = Convert.ToBase64String(Text.Encoding.UTF8.GetBytes(config))
-        Await webView.CoreWebView2.ExecuteScriptAsync("readCfg('" + config + "')")
-        PBar.Value = 100
-        PBar.Visibility = Visibility.Hidden
+        Dim cfgPath = Environment.GetEnvironmentVariable("USERPROFILE") + "/Saved Games/Respawn/Apex/local/videoconfig.txt"
+        If File.Exists(cfgPath) Then
+            Dim reader = File.OpenText(cfgPath)
+            Dim config As String = Await reader.ReadToEndAsync()
+            config = Convert.ToBase64String(Text.Encoding.UTF8.GetBytes(config))
+            Await webView.CoreWebView2.ExecuteScriptAsync("readCfg('" + config + "')")
+            PBar.Value = 100
+            PBar.Visibility = Visibility.Hidden
+        Else
+            MsgBox("No config file found. Run game first!",, "Alert")
+            PBar.Value = 100
+            PBar.Foreground = New SolidColorBrush(
+Media.ColorConverter.ConvertFromString("#FFFF0000"))
+        End If
     End Sub
     Dim waitForconfig As Boolean
     Private Sub webView_WebMessageReceived(sender As Object, e As CoreWebView2WebMessageReceivedEventArgs) Handles webView.WebMessageReceived
