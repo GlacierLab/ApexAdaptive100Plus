@@ -4,6 +4,8 @@ Imports Microsoft.Web.WebView2.Core
 
 Class MainWindow
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        Me.WindowStyle = WindowStyle.None
+        webView.DefaultBackgroundColor = System.Drawing.Color.Transparent
         LoadHtml()
     End Sub
     Private Async Sub LoadHtml()

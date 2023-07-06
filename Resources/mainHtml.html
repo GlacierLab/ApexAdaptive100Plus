@@ -5,13 +5,13 @@
   <title>ApexAdaptive100+ - Qinlili - Glacier Lab</title>
   <style type="text/css">
     html {
-      font-family: "Segoe UI", serif;
+      font-family: "DengXian","Segoe UI", serif;
     }
 
     body {
       margin: 0px;
       overflow: hidden;
-      background: white;
+      background: transparent;
       background-size: contain;
       -webkit-touch-callout: none;
       user-select: none;
@@ -24,9 +24,6 @@
       margin: 0;
     }
   </style>
-  <link href="https://cdn.jsdelivr.net/npm/material-components-web@8.0.0/dist/material-components-web.min.css"
-    rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/material-components-web@8.0.0/dist/material-components-web.min.js"></script>
   <script>
     const TYPEEX = {
       INT: /^\-?\d+$/,
@@ -386,10 +383,6 @@
     <br>
   </div>
   <script>
-    window.mdc.autoInit();
-    for (i = 0; document.getElementsByClassName("mdc-button foo-button")[i]; i++) {
-      mdc.ripple.MDCRipple.attachTo(document.getElementsByClassName("mdc-button foo-button")[i]);
-    }
     function zeroFill(i) {
       if (i >= 0 && i <= 9) {
         return "0" + i;
