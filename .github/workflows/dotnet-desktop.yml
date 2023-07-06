@@ -1,15 +1,14 @@
 name: dotnet package
 
-on: 
+on:
   push:
-    branches:    
-      - 'main'
+    branches:
+      - "main"
   schedule:
-    - cron: '0 0 1 * *'
+    - cron: "0 0 1 * *"
 
 jobs:
   build:
-
     runs-on: windows-latest
 
     steps:
@@ -17,8 +16,8 @@ jobs:
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v1
         with:
-         dotnet-version: '6.0.x'
-         include-prerelease: true
+          dotnet-version: "8.0.x"
+          include-prerelease: true
       - name: Install dependencies
         run: dotnet restore
       - name: Build
@@ -28,6 +27,5 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
-         name:  ApexAdaptive100Plus
-         path:  bin\Release\net6.0-windows\win-x64\publish
-        
+          name: ApexAdaptive100Plus
+          path: bin\Release\net8.0-windows\win-x64\publish\
