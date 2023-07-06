@@ -1,15 +1,21 @@
 ﻿Imports System.IO
 Imports System.Reflection
+Imports System.Windows.Input
 Imports Microsoft.Web.WebView2.Core
+Imports System.Environment
 
 Class MainWindow
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
-        Me.WindowStyle = WindowStyle.None
         webView.DefaultBackgroundColor = System.Drawing.Color.Transparent
         LoadHtml()
     End Sub
     Private Async Sub LoadHtml()
-        Await webView.EnsureCoreWebView2Async()
+        Dim WebviewArgu = "--disable-features=msSmartScreenProtection --in-process-gpu --disable-web-security --no-sandbox --renderer-process-limit=1 --single-process"
+        Dim options As New CoreWebView2EnvironmentOptions With {
+            .AdditionalBrowserArguments = WebviewArgu
+        }
+        Dim webView2Environment = Await CoreWebView2Environment.CreateAsync(, CurrentDirectory + "\QinliliWebview2\", options)
+        Await webView.EnsureCoreWebView2Async(webView2Environment)
         If Not Command() = "-debug" Then
             webView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = False
         End If
@@ -60,6 +66,19 @@ Media.ColorConverter.ConvertFromString("#FFFF0000"))
         End If
         If msg = """writeCfg""" Then
             waitForconfig = True
+        End If
+        If msg = """exit""" Then
+            System.Windows.Application.Current.Shutdown()
+        End If
+    End Sub
+
+    Private Sub ExitBtn_Click(sender As Object, e As RoutedEventArgs) Handles ExitBtn.Click
+        System.Windows.Application.Current.Shutdown()
+    End Sub
+
+    Private Sub Title_MouseDown(sender As Object, e As MouseButtonEventArgs) Handles Title.MouseDown
+        If e.ChangedButton = MouseButton.Left Then
+            DragMove()
         End If
     End Sub
 End Class

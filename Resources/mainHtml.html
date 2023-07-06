@@ -5,7 +5,7 @@
   <title>ApexAdaptive100+ - Qinlili - Glacier Lab</title>
   <style type="text/css">
     html {
-      font-family: "DengXian","Segoe UI", serif;
+      font-family: "DengXian", "Segoe UI", serif;
     }
 
     body {
@@ -22,6 +22,66 @@
     input::-webkit-inner-spin-button {
       -webkit-appearance: none !important;
       margin: 0;
+    }
+
+    span {
+      display: inline-box;
+      line-height: 28px;
+      height: 28px;
+    }
+
+    input {
+      background-color: transparent;
+      position: absolute;
+      padding-right: 40px;
+      height: 26px;
+      width: calc(100% - 16px);
+      font-size: 1.1em;
+      margin-left: 8px;
+      margin-right: 8px;
+      border: none;
+      border-bottom: 1px solid #777777;
+      outline: none;
+    }
+
+    input:focus-visible {
+      height: 27.25px !important;
+      border-bottom: 2px solid #35f39a !important;
+    }
+
+    input:hover {
+      height: 26.75px;
+      border-bottom: 1.5px solid #333333;
+    }
+
+    input:active {
+      height: 27.25px !important;
+      border-bottom: 2px solid #35f39a !important;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      opacity: 0.8;
+      width: auto;
+      height: 24px;
+      padding: 4px;
+      margin: 4px;
+      border-radius: 0px;
+      background-color: rgba(50, 180, 50, 0.1);
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      border-radius: 4px;
+      background-color: rgba(50, 180, 50, 0.3);
+      opacity: 0.9 !important;
+    }
+
+    button:active {
+      border-radius: 8px;
+      background-color: rgba(50, 180, 50, 0.6);
+      opacity: 1 !important;
     }
   </style>
   <script>
@@ -329,58 +389,26 @@
 
 <body marginheight="0px" marginwidth="0px">
   <div style="margin:5px">
-    <span style="font-size:12px">Ensure U Have Enabled Adaptive Resolution In Game</span>
+    <span style="font-size:14px">Ensure adaptive resolution is enabled in game</span>
     <br>
-    <span style="font-size:12px">Value In Game is 3 Lower Than Actual, So Do Here</span>
-    <H4 id="status" style="margin:5px">Loading...</H4>
-    <button onclick="readCfgWV2();" class="mdc-button foo-button">
-      <div class="mdc-button__ripple"></div>
-      <span class="mdc-button__label">Reload Config</span>
-    </button>
-    <button onclick="writeCfg();" class="mdc-button foo-button">
-      <div class="mdc-button__ripple"></div>
-      <span class="mdc-button__label">Save Config</span>
-    </button>
+    <span style="font-size:14px">Value in game is 3 lower than actual, so do here</span>
+    <H5 id="status" style="margin:5px">Loading...</H5>
+    <span>Target FPS</span>
+    <input id="target" type="number">
     <br>
     <br>
-    <label style="width: 100%;padding-inline: 10px;" class="mdc-text-field mdc-text-field--outlined"
-      data-mdc-auto-init="MDCTextField">
-      <input id="target" type="number" class="mdc-text-field__input" value="0" aria-labelledby="my-label-id">
-      <span class="mdc-notched-outline">
-        <span class="mdc-notched-outline__leading"></span>
-        <span class="mdc-notched-outline__notch">
-          <span class="mdc-floating-label" id="my-label-id">Target FPS</span>
-        </span>
-        <span class="mdc-notched-outline__trailing"></span>
-      </span>
-    </label>
+    <span>Min Frametime</span>
+    <input type="number" id="min">
     <br>
     <br>
-    <label style="width: 100%;padding-inline: 10px;" class="mdc-text-field mdc-text-field--outlined"
-      data-mdc-auto-init="MDCTextField">
-      <input type="number" id="min" class="mdc-text-field__input" value="0" aria-labelledby="my-label-id">
-      <span class="mdc-notched-outline">
-        <span class="mdc-notched-outline__leading"></span>
-        <span class="mdc-notched-outline__notch">
-          <span class="mdc-floating-label" id="my-label-id">Min Frametime</span>
-        </span>
-        <span class="mdc-notched-outline__trailing"></span>
-      </span>
-    </label>
-    <br>
-    <br><label style="width: 100%;padding-inline: 10px;" class="mdc-text-field mdc-text-field--outlined"
-      data-mdc-auto-init="MDCTextField">
-      <input type="number" id="max" class="mdc-text-field__input" value="0" aria-labelledby="my-label-id">
-      <span class="mdc-notched-outline">
-        <span class="mdc-notched-outline__leading"></span>
-        <span class="mdc-notched-outline__notch">
-          <span class="mdc-floating-label" id="my-label-id">Max Frametime</span>
-        </span>
-        <span class="mdc-notched-outline__trailing"></span>
-      </span>
-    </label>
+    <span>Max Frametime</span>
+    <input type="number" id="max">
     <br>
     <br>
+
+    <button onclick="readCfgWV2();">Reload Config</button>
+    <button onclick="writeCfg();">Save Config</button>
+    <button onclick="exit();">Exit</button>
   </div>
   <script>
     function zeroFill(i) {
@@ -391,6 +419,9 @@
       }
     }
     var parsed;
+    function exit() {
+      window.chrome.webview.postMessage("exit");
+    }
     function readCfg(file) {
       console.log(atob(file))
       parsed = VDF.parse(atob(file));
@@ -403,7 +434,7 @@
     function writeCfg() {
       parsed["VideoConfig"]["setting.dvs_gpuframetime_max"] = document.getElementById("max").value;
       parsed["VideoConfig"]["setting.dvs_gpuframetime_min"] = document.getElementById("min").value;
-      window.chrome.webview.postMessage("writeCfg")
+      window.chrome.webview.postMessage("writeCfg");
       window.chrome.webview.postMessage(btoa(VDF.stringify(parsed, { pretty: true })))
       document.getElementById("status").innerText = "Saved Config";
     }
@@ -416,7 +447,7 @@
     }
     document.getElementById("target").addEventListener('input', fpsToFrametime)
     function readCfgWV2() {
-      window.chrome.webview.postMessage("readCfg")
+      window.chrome.webview.postMessage("readCfg");
     }
   </script>
 </body>
