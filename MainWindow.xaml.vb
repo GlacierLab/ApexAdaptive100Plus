@@ -19,18 +19,14 @@ Class MainWindow
         If Not Command() = "-debug" Then
             webView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = False
         End If
-        PBar.IsIndeterminate = False
-        PBar.Value = 25
         Dim asm As Assembly = Assembly.GetExecutingAssembly()
         'MsgBox(String.Join(",", Assembly.GetExecutingAssembly().GetManifestResourceNames().ToArray()))
         Dim reader As StreamReader = New StreamReader(asm.GetManifestResourceStream("ApexWebview2.mainHtml.html"))
         Dim htmlString As String = Await reader.ReadToEndAsync()
-        PBar.Value = 50
         webView.CoreWebView2.NavigateToString(htmlString)
     End Sub
 
     Private Sub webView_NavigationCompleted(sender As Object, e As CoreWebView2NavigationCompletedEventArgs) Handles webView.NavigationCompleted
-        PBar.Value = 80
         If Process.GetProcessesByName("r5apex").Length > 0 Then
             MsgBox("Game is running. Exiting game is recommended.",, "Alert")
         End If
@@ -44,6 +40,7 @@ Class MainWindow
             reader.Close()
             config = Convert.ToBase64String(Text.Encoding.UTF8.GetBytes(config))
             Await webView.CoreWebView2.ExecuteScriptAsync("readCfg('" + config + "')")
+            PBar.IsIndeterminate = False
             PBar.Value = 100
             PBar.Visibility = Visibility.Hidden
         Else
