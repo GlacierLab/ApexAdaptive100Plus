@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "ApexWebview2": {
+      "commandName": "Project",
+      "jsWebView2Debugging": false,
+      "nativeDebugging": true
+    }
+  }
+}

@@ -49,6 +49,7 @@ Class MainWindow
             PBar.Foreground = New SolidColorBrush(
 Media.ColorConverter.ConvertFromString("#FFFF0000"))
         End If
+        GC.Collect()
     End Sub
     Dim waitForconfig As Boolean
     Private Sub webView_WebMessageReceived(sender As Object, e As CoreWebView2WebMessageReceivedEventArgs) Handles webView.WebMessageReceived
